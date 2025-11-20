@@ -25,10 +25,11 @@ Idea Inferences: `urn:dikw:user:1234:idea:5678:inferred`
 
 **Modularity** - In the design of my ontology I reused a pattern for describing the role of particular agents. For that I decided to store the Role pattern in its own TTL file and import that into my ontology. This way the Role pattern can be used in other ontology without introducing bloat or entanglements. The AgentRole class in my ontology extends the Role class from the pattern. This role pattern is defined as an ontology and imported into the Idea KG ontology
 
-
+![Role](role.png)
 **Figure 1**: The Role pattern
 
 
+![Agent Role](agent-role.png)
 **Figure 2**: The Role pattern extended for the Idea KG
 
 ## 2-Time and Space:
@@ -45,13 +46,15 @@ Describe a technical scenario or use case for your knowledge graph design where 
 
 **Enumerations & Cardinality Constraints** - I refactored my original model such that the class SupportingData (all InformationObjects that support at least 1 Idea) to instead be a subclass of prov:Collection. As a Collection, members form a set of InformationObjects that can be reused. For example a set of SupportingData can be reused to support more than one single Idea. Knowing that in the KG might provide deeper insights. For UI, the set can be more easily assigned or annotated itself. For example, if a set of InformationObjects have been disproved or dissented to, that can also be achieved with the set. CognitiveEntity requires the existence of at least 1 SupportingData, and so a cardinality constraint is placed upon the class definition for CognitiveEntity:
 
-```[ rdf:type owl:Restriction ;
+```
+[ rdf:type owl:Restriction ;
         owl:onProperty :supportedBy ;
         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
         owl:onClass :SupportingData
-]```
+]
+```
 
-
+![Supporting Data](supporting-data.png)
 **Figure 3**: SupportingData to prov:Collection
 
 **Enumerations (cont’d)** - I also realized that my AgentRole pattern could be re-used for permissions and privileges for other agents to interact with CognitiveEntity’s owned by other users. In order to group just agent roles that are about supporting or opposing a CognitiveEntity, I created a new class called “Claimant” as equivalent to any RoleType whose value is one of RoleType_Dissenter or RoleType_Supporter.
