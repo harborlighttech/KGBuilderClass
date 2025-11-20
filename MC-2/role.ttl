@@ -1,0 +1,90 @@
+@prefix : <https://schema.harborlight.tech/ontology/pattern/role//> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix schema: <https://schema.org/> .
+@base <https://schema.harborlight.tech/ontology/pattern/role//> .
+
+<https://schema.harborlight.tech/ontology/pattern/role/> rdf:type owl:Ontology ;
+                                                          owl:versionIRI <https://schema.harborlight.tech/ontology/pattern/role/v0.1/> ;
+                                                          rdfs:label "Role Pattern" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://schema.harborlight.tech/ontology/pattern/role/roleType
+:roleType rdf:type owl:ObjectProperty ;
+          rdfs:domain :Role ;
+          rdfs:comment "The type of Role" ;
+          rdfs:label "roleType" .
+
+
+###  https://schema.harborlight.tech/ontology/pattern/role//performedBy
+:performedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Role ;
+             rdfs:comment "The thing performing the Role." ;
+             rdfs:label "performedBy" .
+
+
+###  https://schema.harborlight.tech/ontology/pattern/role//providesRoleType
+:providesRoleType rdf:type owl:ObjectProperty ;
+                  rdfs:comment """The type of Role(s) afforded by some thing. 
+
+Example: The Denver Broncos affords the role types of: Head Coach, Quarterback, Running Back, General Manager, etc.""" ;
+                  rdfs:label "providesRoleType" .
+
+
+###  https://schema.harborlight.tech/ontology/pattern/role//subject
+:subject rdf:type owl:ObjectProperty ;
+         rdfs:domain :Role ;
+         rdfs:comment """The subject of the role being performed. Typically the focus of the role. 
+
+Example: A quarterback is a role played by John Elway for the subject of the Denver Broncos. Why? Because The Denver Broncos organziation affords the role of quaterback on the team for which John performs for a certain period of time.""" .
+
+
+###  https://schema.harborlight.tech/ontology/pattern/role//temporalExtent
+:temporalExtent rdf:type owl:ObjectProperty ;
+                rdfs:domain :Role ;
+                rdfs:comment "The temporal boundary for which the role was performed." ;
+                rdfs:label "temporalExtent" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://schema.harborlight.tech/ontology/pattern/role//Role
+:Role rdf:type owl:Class ;
+      owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :temporalExtent ;
+                                                   owl:someValuesFrom owl:Thing
+                                                 ]
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :performedBy ;
+                                                   owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                                 ]
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :subject ;
+                                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass [ owl:intersectionOf ( owl:Thing
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty :providesRoleType ;
+                                                                                        owl:someValuesFrom owl:Thing
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ]
+                                                 ]
+                                               ) ;
+                            rdf:type owl:Class
+                          ] ;
+      rdfs:comment "The ability for some actor to perform a role on a subject typically for some period of time. The subject typically affords the types of roles that can be played by some actor" ;
+      rdfs:label "Role" .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

@@ -1,0 +1,321 @@
+@prefix : <https://schema.harborlight.tech/ontology/dikw/v0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix schema: <https://schema.org/> .
+@base <https://schema.harborlight.tech/ontology/dikw/v0.1/> .
+
+<https://schema.harborlight.tech/ontology/dikw/v0.2/> rdf:type owl:Ontology ;
+                                                       owl:imports <https://schema.harborlight.tech/ontology/pattern/role/v0.1/> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/about
+:about rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf owl:topObjectProperty ;
+       rdfs:comment "Borrowing from schema.org, this is \"the subject matter of the content\"." ;
+       rdfs:label "about"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/assertedBy
+:assertedBy rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            rdfs:domain :CognitiveEntity ;
+            rdfs:range prov:Agent ;
+            rdfs:comment "The agent that is asserting the truth of a CognitiveEntity. This agent is solely responsible for this CognitiveEntity." ;
+            rdfs:label "assertedBy"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/contraposesIdea
+:contraposesIdea rdf:type owl:ObjectProperty ;
+                 rdfs:domain :AgentRole ;
+                 rdfs:range :CognitiveEntity ;
+                 rdfs:comment "The proposed CognitiveEntity that supports the dissent of an AgentRole" ;
+                 rdfs:label "contraposes" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/hasIntensity
+:hasIntensity rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain :AgentRole ;
+              rdfs:range :LevelOfCommitment ;
+              rdfs:comment "The intensity fro which an AgentRole is applied to its subject." ;
+              rdfs:label "hasIntensity"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/hasPart
+:hasPart rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         owl:inverseOf :isPartOf ;
+         rdfs:domain :InformationObject ;
+         rdfs:range :InformationObject ;
+         rdfs:comment "An InformationObject may be comprised of multiple parts. This points to one or more of its parts. Inverse of isPartOf." ;
+         rdfs:label "hasPart"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/isPartOf
+:isPartOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdfs:domain :InformationObject ;
+          rdfs:range :InformationObject ;
+          rdfs:label "isPartOf"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/provider
+:provider rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :InformationObject ;
+          rdfs:range prov:Agent ;
+          rdfs:comment "The Agent that provides access to the SupportingData (ex: Pinterest supplies access to an Article at website example.com)" ;
+          rdfs:label "provider" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/publisher
+:publisher rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :InformationObject ;
+           rdfs:range prov:Agent ;
+           rdfs:comment "The publisher of the supporting data. Typically it's the same as the provider, but this property gives credit to the agent making the data available." ;
+           rdfs:label "publisher" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/supportedBy
+:supportedBy rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             rdfs:domain :CognitiveEntity ;
+             rdfs:range :SupportingData ;
+             rdfs:comment "Links SupportingData to the CognitiveEntity that is asserting t as foundational to its truth." ;
+             rdfs:label "supportedBy"@en-us .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/comment
+:comment rdf:type owl:DatatypeProperty ;
+         rdfs:range xsd:string ;
+         rdfs:label "comment" ;
+         rdfs:seeAlso rdfs:comment .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/name
+:name rdf:type owl:DatatypeProperty ,
+               owl:FunctionalProperty ;
+      rdfs:range xsd:string ;
+      rdfs:label "name" ;
+      rdfs:seeAlso schema:name .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/url
+:url rdf:type owl:DatatypeProperty ,
+              owl:FunctionalProperty ;
+     rdfs:range xsd:anyURI ;
+     rdfs:label "url" ;
+     rdfs:seeAlso schema:url .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.w3.org/2006/time#TemporalEntity
+time:TemporalEntity rdf:type owl:Class ;
+                    rdfs:label "time:TemporalEntity"@en-us .
+
+
+###  http://www.w3.org/ns/prov#Activity
+prov:Activity rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/prov#Agent
+prov:Agent rdf:type owl:Class ;
+           rdfs:label "prov:Agent"@en-us .
+
+
+###  http://www.w3.org/ns/prov#Collection
+prov:Collection rdf:type owl:Class ;
+                rdfs:subClassOf prov:Entity .
+
+
+###  http://www.w3.org/ns/prov#Entity
+prov:Entity rdf:type owl:Class ;
+            rdfs:label "prov:Entity"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/AgentRole
+:AgentRole rdf:type owl:Class ;
+           rdfs:subClassOf [ owl:intersectionOf ( <https://schema.harborlight.tech/ontology/pattern/role//Role>
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <https://schema.harborlight.tech/ontology/pattern/role//performedBy> ;
+                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                    owl:onClass prov:Agent
+                                                  ]
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <https://schema.harborlight.tech/ontology/pattern/role//subject> ;
+                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                    owl:onClass [ owl:intersectionOf ( :CognitiveEntity
+                                                                                       [ rdf:type owl:Restriction ;
+                                                                                         owl:onProperty <https://schema.harborlight.tech/ontology/pattern/role//providesRoleType> ;
+                                                                                         owl:someValuesFrom :RoleType
+                                                                                       ]
+                                                                                     ) ;
+                                                                  rdf:type owl:Class
+                                                                ]
+                                                  ]
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <https://schema.harborlight.tech/ontology/pattern/role//temporalExtent> ;
+                                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                    owl:onClass time:TemporalEntity
+                                                  ]
+                                                ) ;
+                             rdf:type owl:Class
+                           ] ;
+           rdfs:comment "The ability to assign a role/position for an Agent across time and annotate this position with data about the role/position for that period." ;
+           rdfs:label "AgentRole"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/Category
+:Category rdf:type owl:Class ;
+          rdfs:label "Category" ;
+          rdfs:seeAlso "gist:Category" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/CognitiveEntity
+:CognitiveEntity rdf:type owl:Class ;
+                 rdfs:subClassOf [ owl:intersectionOf ( :InformationObject
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :supportedBy ;
+                                                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                          owl:onClass :SupportingData
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+                 rdfs:comment "An idea, hypothesis, or decision derived from 1 or more SupportingData elements as asserted by some Agent about some Topic. Other Agents can subscribe to, or dissent to, this idea/hypothesis/decision. With a CognitiveEntity as a subclass of InformationObject, we can use a CognitiveEntity as SupportingData for another CognitiveEntity - Ideas can build on other Ideas." ;
+                 rdfs:label "CognitiveEntity"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/Decision
+:Decision rdf:type owl:Class ;
+          rdfs:subClassOf :CognitiveEntity ;
+          rdfs:comment "A decision derived from 1 or more pieces of SupportingData" ;
+          rdfs:label "Decision"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/Hypothesis
+:Hypothesis rdf:type owl:Class ;
+            rdfs:subClassOf :Idea ;
+            rdfs:comment "A testable, measurable Idea" ;
+            rdfs:label "Hypothesis" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/Idea
+:Idea rdf:type owl:Class ;
+      rdfs:subClassOf :CognitiveEntity ;
+      rdfs:comment "An insight derived from 1 or more pieces of SupportingData." ;
+      rdfs:label "Idea"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/InformationObject
+:InformationObject rdf:type owl:Class ;
+                   rdfs:subClassOf prov:Entity ;
+                   rdfs:comment "A piece of information or data that could possibly support a CognitiveEntity. An InformationObject could be a quote, a statement, an idea. It can be contained within some form such as a book, digital document, movie, song, podcast, article, etc. Typically, the InformationObject is attributed to some agent. I stop short of saying authored as it might be a repeated idea by a non-author which could be unknown to the consuming party at the time." ;
+                   rdfs:label "InformationObject"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/LevelOfCommitment
+:LevelOfCommitment rdf:type owl:Class ;
+                   rdfs:subClassOf :Category ;
+                   rdfs:comment "The level of commitment for an AgentRole to its subject. Typically this is useful for specifying the level of commitment to some subscription or dissent to a CognitiveEntity. As a class, instead of a literal, allows for a number of representation - numeric values or written descriptions at the preference of the Agent performing the role." ;
+                   rdfs:label "LevelOfCommitment"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/RoleType
+:RoleType rdf:type owl:Class ;
+          rdfs:subClassOf :Category ;
+          rdfs:comment "A type of Role" ;
+          rdfs:label "RoleType" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/SupportingData
+:SupportingData rdf:type owl:Class ;
+                rdfs:subClassOf [ owl:intersectionOf ( prov:Collection
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty [ owl:inverseOf :supportedBy
+                                                                        ] ;
+                                                         owl:someValuesFrom :CognitiveEntity
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:comment "An InformationObject that supports at least 1 CognitiveEntity. SupportingData is typically maintained by at least 1 Agent. Maintenance may suggest who is asserting the support." ;
+                rdfs:label "SupportingData"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/Topic
+:Topic rdf:type owl:Class ;
+       rdfs:subClassOf :Category ;
+       rdfs:comment "A realm or domain for which a CognitiveEntity is about. For example, the Idea \"the 4% rule is a safe retirement withdrawal strategy for investments in low-cost index funds\" could be about the topic of \"Retirement Withdrawal Strategies\"." ;
+       rdfs:label "Topic"@en-us .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.2/Claimant
+:Claimant rdf:type owl:Class ;
+          owl:equivalentClass [ owl:intersectionOf ( :RoleType
+                                                     [ rdf:type owl:Class ;
+                                                       owl:oneOf ( :RoleType_Dissenter
+                                                                   :RoleType_Supporter
+                                                                 )
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
+          rdfs:comment "An RoleType whose value is one of support or opposition." ;
+          rdfs:label "Claimant" .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/Agent_UNKNOWN
+:Agent_UNKNOWN rdf:type owl:NamedIndividual ,
+                        prov:Agent ;
+               :name "Unknown" ;
+               rdfs:comment "An unknown agent....yet." ;
+               rdfs:label "Agent_UNKNOWN" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/InformationObject_NO-DATA
+:InformationObject_NO-DATA rdf:type owl:NamedIndividual ,
+                                    :InformationObject ;
+                           :name "No Data" ;
+                           rdfs:comment "The absence of data for the case when you want to build from a CognitiveEntity first, but need a SupportingData object for it to conform/validate." ;
+                           rdfs:label "InformationObject_NO-DATA" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/RoleType_Dissenter
+:RoleType_Dissenter rdf:type owl:NamedIndividual ,
+                             :RoleType ;
+                    :name "Dissenter" ;
+                    rdfs:comment "A position of dissention towards a CognitiveEntity" ;
+                    rdfs:label "RoleType_Dissenter" .
+
+
+###  https://schema.harborlight.tech/ontology/dikw/v0.1/RoleType_Supporter
+:RoleType_Supporter rdf:type owl:NamedIndividual ,
+                             :RoleType ;
+                    :name "Supporter" ;
+                    rdfs:comment "A position of support for a CognitiveEntity" ;
+                    rdfs:label "RoleType_Supporter" .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
